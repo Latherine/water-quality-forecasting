@@ -84,7 +84,10 @@ promising next experiment: a 24- or 48-hour horizon.
 02_data_preprocessing.ipynb      Clean per those findings, aggregate to hours, select features
 03_model_training.ipynb          Train 8 models per site and indicator
 04_evaluation_comparison.ipynb   Score, compare, bootstrap-check, decide
+05_make_forecast.ipynb           Use the chosen models to make a real forecast
 
+forecast.py                      The forecasting module (usable outside Jupyter)
+models/                          Fitted machine-learning models
 predictions/                     One CSV per site+indicator: actual + every model's forecast
 results/
   model_scores.csv               MAE / RMSE / R² / skill for every model
@@ -93,6 +96,32 @@ results/
 ```
 
 Each notebook hands off through files, so any one of them can be run on its own.
+
+## Making a forecast
+
+```python
+import pandas as pd
+from forecast import forecast
+
+recent = pd.read_pickle("processed/CAU_NGA_hourly.pkl")["values"].tail(48)
+answer = forecast("CAU_NGA", "tss", recent)
+
+print(answer["forecast"], "expected at", answer["valid_for"])
+```
+
+Or run `python forecast.py` for all nine forecasts at once.
+
+`forecast.py` reads `results/final_decision.csv`, so it always applies whichever model won for
+that site and indicator — nothing is hard-coded. Rerun the comparison and forecasting follows
+the new decision automatically.
+
+Only `gradient_boosting` loads a file from `models/`. `persistence` and `moving_average` have no
+trained parameters and are recreated in one line each, which is why 8 of the 9 chosen models
+need nothing stored at all.
+
+Each result also reports `reading_age_hours` — how old the newest genuine measurement is. These
+sensors drop out often, and a forecast built on a six-hour-old reading deserves less trust than
+one built on the current hour.
 
 Also included for context:
 
@@ -119,12 +148,21 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Then run the notebooks in order, `01` through `04`.
+Then run the notebooks in order, `01` through `05`.
 
 The raw `.xlsx` sensor files are **not** included in this repository. Place them in the project
 root as `BAY MAU.xlsx`, `CAU NGA.xlsx` and `HO TAY.xlsx` to reproduce the pipeline from scratch.
-The contents of `predictions/` and `results/` are committed, so `04_evaluation_comparison.ipynb`
-can be run and inspected without them.
+What you can do without the raw data:
+
+| Notebook | Runs from a fresh clone? |
+|---|---|
+| `01`, `02` | No — needs the `.xlsx` files |
+| `03` | No — needs `processed/`, built by `02` |
+| `04` | **Yes** — `predictions/` and `results/` are committed |
+| `05` | No — needs `processed/` for recent readings, though `models/` is committed |
+
+All notebook outputs are saved in the files, so the full analysis is readable on GitHub without
+running anything.
 
 TensorFlow is optional — notebook 03 skips the LSTM automatically if it is not installed, and
 every baseline still runs.
