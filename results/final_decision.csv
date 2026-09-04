@@ -1,0 +1,10 @@
+site,indicator,keep_this_model,MAE,skill,reason
+Bay Mau,nh4,persistence,0.022807,0.0,nothing beat the baseline
+Bay Mau,cod,persistence,2.207418,0.0,nothing beat the baseline
+Bay Mau,tss,persistence,1.485743,0.0,nothing beat the baseline
+Cau Nga,nh4,persistence,0.058622,0.0,nothing beat the baseline
+Cau Nga,cod,persistence,0.714524,0.0,nothing beat the baseline
+Cau Nga,tss,gradient_boosting,2.371776,0.19402,proven better than the baseline
+Ho Tay,nh4,persistence,0.007826,0.0,nothing beat the baseline
+Ho Tay,cod,persistence,0.072853,0.0,nothing beat the baseline
+Ho Tay,tss,moving_average,0.010325,0.173196,proven better than the baseline

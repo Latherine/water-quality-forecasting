@@ -1,0 +1,10 @@
+site,target,selected,MAE,skill_vs_baseline,ci,reason
+Bay Mau,nh4,B1 persistence,0.02280726911976911,0.0,-,no challenger cleared the bar
+Bay Mau,cod,B1 persistence,2.2074182451932454,0.0,-,no challenger cleared the bar
+Bay Mau,tss,B1 persistence,1.4857425017675734,0.0,-,no challenger cleared the bar
+Cau Nga,nh4,B1 persistence,0.05862179323811166,0.0,-,no challenger cleared the bar
+Cau Nga,cod,B1 persistence,0.7145243638081177,0.0,-,no challenger cleared the bar
+Cau Nga,tss,B6 grad boosting,2.3717764706292126,0.19402016829859536,"[+0.129, +0.254]",significantly beats baseline
+Ho Tay,nh4,B1 persistence,0.007826038159371485,0.0,-,no challenger cleared the bar
+Ho Tay,cod,B1 persistence,0.07285342961636072,0.0,-,no challenger cleared the bar
+Ho Tay,tss,B3 moving avg 4h,0.010324899459514947,0.17319604334900085,"[+0.084, +0.254]",significantly beats baseline

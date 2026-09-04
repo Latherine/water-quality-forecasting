@@ -1,0 +1,27 @@
+# ---- Raw sensor data: not redistributed ----
+*.xlsx
+
+# ---- Regenerable intermediates ----
+# cache/     cached Excel parses (contains the raw data) - rebuilt by notebook 01
+# processed/ hourly tables derived from the raw data     - rebuilt by notebook 02
+cache/
+processed/
+
+# ---- Old model artefacts from the superseded LSTM notebook ----
+lstm_*.keras
+lstm_meta_*.pkl
+baseline_model_selection.pkl
+
+# ---- Third-party reference documents ----
+*.pdf
+
+# ---- Local scratch / tooling ----
+Untitled-1.ipynb
+.claude/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
