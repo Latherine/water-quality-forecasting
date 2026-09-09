@@ -87,7 +87,8 @@ promising next experiment: a 24- or 48-hour horizon.
 05_make_forecast.ipynb           Use the chosen models to make a real forecast
 
 forecast.py                      The forecasting module (usable outside Jupyter)
-models/                          Fitted machine-learning models
+models/                          Only the models that beat the baseline
+  candidates/                    Every trained model, kept for reference
 predictions/                     One CSV per site+indicator: actual + every model's forecast
 results/
   model_scores.csv               MAE / RMSE / R² / skill for every model
@@ -115,9 +116,12 @@ Or run `python forecast.py` for all nine forecasts at once.
 that site and indicator — nothing is hard-coded. Rerun the comparison and forecasting follows
 the new decision automatically.
 
-Only `gradient_boosting` loads a file from `models/`. `persistence` and `moving_average` have no
-trained parameters and are recreated in one line each, which is why 8 of the 9 chosen models
-need nothing stored at all.
+`models/` holds **only models that earned their place**. Notebook 03 writes every trained model
+to `models/candidates/`, then notebook 04 copies across just the ones the decision selected.
+
+In practice that is a single file — `CAU_NGA_tss_gradient_boosting.pkl`. The other 8 cases chose
+`persistence` or `moving_average`, which are rules with no parameters, recreated by
+`forecast.py` in one line each.
 
 Each result also reports `reading_age_hours` — how old the newest genuine measurement is. These
 sensors drop out often, and a forecast built on a six-hour-old reading deserves less trust than
@@ -160,6 +164,9 @@ What you can do without the raw data:
 | `03` | No — needs `processed/`, built by `02` |
 | `04` | **Yes** — `predictions/` and `results/` are committed |
 | `05` | No — needs `processed/` for recent readings, though `models/` is committed |
+
+Rerunning `04` rebuilds `models/` from `models/candidates/`, so if the decision ever
+changes the deployed model follows automatically.
 
 All notebook outputs are saved in the files, so the full analysis is readable on GitHub without
 running anything.

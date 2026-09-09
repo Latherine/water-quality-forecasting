@@ -25,3 +25,7 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 venv/
+
+# Candidate models: every model notebook 03 trains.
+# Only the winners, copied into models/ by notebook 04, are committed.
+models/candidates/
