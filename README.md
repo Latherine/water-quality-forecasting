@@ -20,7 +20,11 @@ no training.
 | **Ho Tay** | **tss** | `moving_average` | **+0.173** |
 
 `persistence` is the rule *"in four hours it will be whatever it is now"* — one line of code.
-An LSTM beat it in **1 of 9** cases, and even there gradient boosting did better.
+
+An LSTM was tested and **removed from the pipeline**. It beat `persistence` in only 1 of the 9
+cases, and gradient boosting did better even there, so it did not justify the TensorFlow
+dependency or the training time. The evidence is preserved in
+`Water_Quality_4h_LSTM_Forecasting.ipynb`; removing it changed no decision.
 
 ## Why this project exists
 
@@ -53,7 +57,7 @@ Four ideas keep the comparison honest:
 |---|---|
 | An `is_real` mask flagging every measured vs filled hour | scoring on invented data |
 | Chronological split (oldest 85% train, newest 15% test) | the model seeing the future |
-| One shared set of evaluation rows for all 8 models | a model getting easier data than its rivals |
+| One shared set of evaluation rows for all 7 models | a model getting easier data than its rivals |
 | Paired bootstrap confidence intervals on the skill score | mistaking luck for skill |
 
 That last one mattered. Two models had positive skill — Bay Mau/COD (+0.070) and Ho Tay/COD
@@ -82,7 +86,7 @@ promising next experiment: a 24- or 48-hour horizon.
 ```
 01_eda.ipynb                     Explore the raw files; produces 6 numbered findings
 02_data_preprocessing.ipynb      Clean per those findings, aggregate to hours, select features
-03_model_training.ipynb          Train 8 models per site and indicator
+03_model_training.ipynb          Train 7 models per site and indicator
 04_evaluation_comparison.ipynb   Score, compare, bootstrap-check, decide
 05_make_forecast.ipynb           Use the chosen models to make a real forecast
 
@@ -129,7 +133,8 @@ one built on the current hour.
 
 Also included for context:
 
-- `Water_Quality_4h_LSTM_Forecasting.ipynb` — the original LSTM approach
+- `Water_Quality_4h_LSTM_Forecasting.ipynb` — the original LSTM approach, kept as the
+  record of why a neural model was not adopted
 - `Water_Quality_Baseline_Forecasting.ipynb` — the single-notebook rebuild, since split into 01–04
 
 ## The models
@@ -143,7 +148,6 @@ Also included for context:
 | `drift` | baseline | continue the recent trend linearly |
 | `ridge` | machine learning | linear model on lagged values |
 | `gradient_boosting` | machine learning | tree ensemble on lagged values |
-| `lstm` | deep learning | neural network over a 24-hour sequence |
 
 ## Running it
 
@@ -171,8 +175,8 @@ changes the deployed model follows automatically.
 All notebook outputs are saved in the files, so the full analysis is readable on GitHub without
 running anything.
 
-TensorFlow is optional — notebook 03 skips the LSTM automatically if it is not installed, and
-every baseline still runs.
+No deep-learning dependency is required — the pipeline runs on pandas, scikit-learn and
+matplotlib alone.
 
 ## About the data
 

@@ -7,9 +7,7 @@
 cache/
 processed/
 
-# ---- Old model artefacts from the superseded LSTM notebook ----
-lstm_*.keras
-lstm_meta_*.pkl
+# ---- Old artefacts from the superseded single-notebook version ----
 baseline_model_selection.pkl
 
 # ---- Third-party reference documents ----
